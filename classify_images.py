@@ -62,7 +62,7 @@ def classify_images(images_dir, results_dic, model):
     
     for filename in results_dic.keys():
         
-        classifier_label = classifier(images_dir + filename, model)
+        classifier_label = classifier(images_dir + filename, model).strip().lower()
         splitted_classifier_label = classifier_label.split(', ')
         
         results_dic[filename].append(classifier_label)

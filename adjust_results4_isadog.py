@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/adjust_results4_isadog.py
 #                                                                             
-# PROGRAMMER: 
-# DATE CREATED:                                 
+# PROGRAMMER: Murillo de Morais
+# DATE CREATED: 06/11/2020                     
 # REVISED DATE: 
 # PURPOSE: Create a function adjust_results4_isadog that adjusts the results 
 #          dictionary to indicate whether or not the pet image label is of-a-dog, 
@@ -31,12 +31,6 @@
 #           label isn't a dog.
 #
 ##
-# TODO 4: Define adjust_results4_isadog function below, specifically replace the None
-#       below by the function definition of the adjust_results4_isadog function. 
-#       Notice that this function doesn't return anything because the 
-#       results_dic dictionary that is passed into the function is a mutable 
-#       data type so no return is needed.
-# 
 def adjust_results4_isadog(results_dic, dogfile):
     """
     Adjusts the results dictionary to determine if classifier correctly 
@@ -66,5 +60,28 @@ def adjust_results4_isadog(results_dic, dogfile):
                maltese) (string - indicates text file's filename)
     Returns:
            None - results_dic is mutable data type so no return needed.
-    """           
-    None
+    """
+    with open(dogfile) as f:
+        dogfile_content = f.readlines()
+        
+        dog_dic = dict()
+        
+        # Populates the dog_dic with all the dog nicks as keys with value 1
+        for dog in dogfile_content:
+            for dog_nick in dog.strip().split(', '):
+                dog_dic[dog_nick.lower()] = 1
+        
+        for dog in results_dic.keys():
+            pet_image_label, classifier_label = results_dic[dog][:2]
+            
+            splitted_classifier_label = classifier_label.split(', ')
+            classified_as_a_dog = 0
+            
+            # Verify if any classifier label exists in the doc_dic as a key
+            for label in splitted_classifier_label:
+                if (dog_dic.get(label) is not None):
+                    classified_as_a_dog = 1
+                    break
+            
+            results_dic[dog].append(dog_dic.get(pet_image_label, 0))
+            results_dic[dog].append(classified_as_a_dog)

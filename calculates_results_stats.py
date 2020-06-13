@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/calculates_results_stats.py
 #                                                                             
-# PROGRAMMER:
-# DATE CREATED:                                  
+# PROGRAMMER: Murillo de Morais
+# DATE CREATED: 06/10/2020                  
 # REVISED DATE: 
 # PURPOSE: Create a function calculates_results_stats that calculates the 
 #          statistics of the results of the programrun using the classifier's model 
@@ -38,10 +38,7 @@
 #            pct_correct_notdogs - percentage of correctly classified NON-dogs
 #
 ##
-# TODO 5: Define calculates_results_stats function below, please be certain to replace None
-#       in the return statement with the results_stats_dic dictionary that you create 
-#       with this function
-# 
+
 def calculates_results_stats(results_dic):
     """
     Calculates statistics of the results of the program run using classifier's model 
@@ -67,7 +64,44 @@ def calculates_results_stats(results_dic):
                      and the value is the statistic's value. See comments above
                      and the previous topic Calculating Results in the class for details
                      on how to calculate the counts and statistics.
-    """        
-    # Replace None with the results_stats_dic dictionary that you created with 
-    # this function 
-    return None
+    """
+    
+    results_dic_keys = results_dic.keys()
+       
+    n_images = len(results_dic)
+    
+    def get_filtered_results_list(fn):
+        return [result for result in (filter(fn, results_dic_keys))]
+    
+    is_dog_img = lambda dog: bool(results_dic[dog][3])
+    n_dogs_img = len(get_filtered_results_list(is_dog_img))
+    
+    n_notdogs_img = n_images - n_dogs_img
+    
+    is_match = lambda dog: bool(results_dic[dog][2])
+    n_match = len(get_filtered_results_list(is_match))
+    
+    is_correct_dog = lambda dog: results_dic[dog][3] == 1 and results_dic[dog][4] == 1
+    n_correct_dogs = len(get_filtered_results_list(is_correct_dog))
+    
+    is_correct_notdog = lambda dog: results_dic[dog][3] == 0 and results_dic[dog][4] == 0
+    n_correct_notdogs = len(get_filtered_results_list(is_correct_notdog))
+    
+    is_correct_breed = lambda dog: results_dic[dog][3] == 1 and results_dic[dog][2] == 1
+    n_correct_breed = len(get_filtered_results_list(is_correct_breed))
+    
+    results_stats_dic = {
+        'n_images': n_images,
+        'n_dogs_img': n_dogs_img,
+        'n_notdogs_img': n_notdogs_img,
+        'n_match': n_match,
+        'n_correct_dogs': n_correct_dogs,
+        'n_correct_notdogs': n_correct_notdogs,
+        'n_correct_breed': n_correct_breed,
+        'pct_match': n_match/n_images * 100,
+        'pct_correct_dogs': n_correct_dogs/n_dogs_img * 100,
+        'pct_correct_breed': n_correct_breed/n_dogs_img * 100,
+        'pct_correct_notdogs': n_correct_notdogs/n_notdogs_img * 100
+    }
+    
+    return results_stats_dic

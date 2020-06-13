@@ -42,8 +42,9 @@ def get_pet_labels(image_dir):
     results_dic = {}
     
     for filename in filename_list:
-        splitted_filename = filename.split('_')
-        dog_name = ' '.join(splitted_filename[:len(splitted_filename)-1])
-        results_dic[filename] = [dog_name.lower()]
+        if filename[0] != ".":
+            filename_without_extension = filename.split('.')[0]
+            dog_name = ''.join([c for c in filename_without_extension if c.isalpha() or c=='_' or c==' ']).replace('_',' ')
+            results_dic[filename] = [dog_name.strip().lower()]
     
     return results_dic
