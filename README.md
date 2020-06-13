@@ -2,6 +2,11 @@
 
 There is a repository to store my project for my nanodegree studies. It's a classifier implementation written in Python that identify dog breeds.
 
+### Samples Archs Scores
+![Resnet](https://s3.amazonaws.com/in3d-site/portfolio/pre-trained-image-classifier-dog-breed/resnet.jpeg "Resnet")
+![Alexnet](https://s3.amazonaws.com/in3d-site/portfolio/pre-trained-image-classifier-dog-breed/alexnet.jpeg "Alexnet")
+![VGG](https://s3.amazonaws.com/in3d-site/portfolio/pre-trained-image-classifier-dog-breed/vgg.jpeg "VGG")
+
 ### Dependencies
 
 Clone this repository.
